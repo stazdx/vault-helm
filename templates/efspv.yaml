@@ -1,0 +1,52 @@
+{{- if and (eq (.Values.server.efspv.enabled | toString) "true" ) (eq (.Values.global.enabled | toString) "true") (not (eq (.Values.server.efspv.fileSystemId | toString) "null")) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.server.efspv.name }}-0
+spec:
+  capacity:
+    storage: {{ .Values.server.efspv.capacity.storage | toString }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ .Values.server.efspv.accessMode| toString }}  #ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.server.dataStorage.storageClass | toString }}
+  csi:
+    driver: {{ .Values.server.efspv.csiDriver | toString }}
+    volumeHandle: {{ .Values.server.efspv.fileSystemId | toString }}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.server.efspv.name }}-1
+spec:
+  capacity:
+    storage: {{ .Values.server.efspv.capacity.storage | toString }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ .Values.server.efspv.accessMode| toString }} #ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.server.dataStorage.storageClass | toString }}
+  csi:
+    driver: {{ .Values.server.efspv.csiDriver | toString }}
+    volumeHandle: {{ .Values.server.efspv.fileSystemId | toString }}
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.server.efspv.name }}-2
+spec:
+  capacity:
+    storage: {{ .Values.server.efspv.capacity.storage | toString }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ .Values.server.efspv.accessMode| toString }} #ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.server.dataStorage.storageClass | toString }}
+  csi:
+    driver: {{ .Values.server.efspv.csiDriver | toString }}
+    volumeHandle: {{ .Values.server.efspv.fileSystemId | toString }}
+
+{{- end }}
